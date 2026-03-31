@@ -63,11 +63,12 @@ create table staking (
 
 ## Konfigurasi Frontend
 
-1. Buka `app.js` dan ganti:
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-
-2. Jika ingin membuat akun admin, tambahkan nilai `role = 'admin'` di tabel `users` untuk user tertentu.
+1. Salin `config.example.js` menjadi `config.js` di folder `crypto-stake`.
+2. Isi `config.js` dengan nilai Supabase Anda.
+   - `window.SUPABASE_URL`
+   - `window.SUPABASE_ANON_KEY`
+   - `window.SUPABASE_DB_URL` (hanya untuk referensi server-side)
+3. Jika ingin membuat akun admin, tambahkan nilai `role = 'admin'` di tabel `users` untuk user tertentu.
 
 ## Deploy ke GitHub dan Vercel
 
@@ -118,8 +119,35 @@ Skrip ini akan:
 ## Koneksi Supabase
 
 - Pastikan Anda sudah membuat project di Supabase.
-- Di `app.js`, atur `SUPABASE_URL` dan `SUPABASE_ANON_KEY` sesuai project Anda.
+- Salin `config.example.js` menjadi `config.js` dan isi nilai publik berikut:
+  - `window.SUPABASE_URL`
+  - `window.SUPABASE_ANON_KEY`
+- Jangan commit `config.js` ke repo publik karena berisi informasi rahasia.
+- `SUPABASE_DB_URL` hanya untuk tool atau server-side, bukan untuk frontend.
 - Setelah deploy, Supabase akan melayani autentikasi dan data pengguna.
+
+## Connection string dan akses database
+
+Untuk akses database secara server-side gunakan:
+
+```text
+postgresql://postgres:[YOUR-PASSWORD]@db.lbuwtpcopufsdkmrizbn.supabase.co:5432/postgres
+```
+
+Catatan:
+- `postgresql://...` bukan untuk dipakai di frontend.
+- `.env` atau secret service-role harus digunakan untuk akses database server-side.
+
+## Agent Skills Supabase (opsional)
+
+Jika ingin menambah Agent Skills di lokal, jalankan:
+
+```bash
+npx skills add supabase/agent-skills
+```
+
+Ini berguna untuk environment pengembangan, tetapi tidak wajib untuk deploy situs statis.
+
 ## Catatan
 
 - Anon key Supabase adalah public dan digunakan di client-side.
